@@ -1,0 +1,267 @@
+# PixelPositions - Cursor Rules
+
+## Project Overview
+Building a minimalist design job board with Next.js 14, TypeScript, Tailwind CSS, and shadcn/ui components.
+
+## Code Style & Formatting
+
+### TypeScript
+- Use TypeScript for all files except config files
+- Prefer interfaces over types for object shapes
+- Use strict mode settings
+- Always define return types for functions
+- Use const assertions where appropriate
+
+### React & Next.js
+- Use functional components with hooks
+- Prefer React Query for data fetching
+- Use Next.js 14 App Router patterns
+- Server components by default, client components when needed
+- Use proper error boundaries
+
+### Component Structure
+```typescript
+// Component file structure template
+'use client' // Only if needed
+
+import { type ComponentProps } from 'react'
+import { cn } from '@/lib/utils'
+
+interface ComponentNameProps {
+  // Props definition
+}
+
+export function ComponentName({ ...props }: ComponentNameProps) {
+  // Component logic
+  return (
+    // JSX
+  )
+}
+```
+
+## File Organization
+
+### Directory Structure
+```
+src/
+├── app/                 # Next.js 14 app router
+│   ├── (routes)/       # Route groups
+│   ├── api/            # API routes
+│   └── globals.css     # Global styles
+├── components/         # Reusable UI components
+│   ├── ui/             # shadcn/ui components
+│   └── [feature]/      # Feature-specific components
+├── lib/                # Utilities and configurations
+│   ├── utils.ts        # General utilities
+│   ├── api.ts          # API clients
+│   └── constants.ts    # App constants
+├── types/              # TypeScript type definitions
+│   ├── job.ts          # Job-related types
+│   └── api.ts          # API response types
+└── hooks/              # Custom React hooks
+```
+
+### Naming Conventions
+- **Files**: kebab-case for all files (`job-list.tsx`)
+- **Components**: PascalCase (`JobCard`, `FilterSidebar`)
+- **Variables/Functions**: camelCase (`jobList`, `parseLocation`)
+- **Constants**: SCREAMING_SNAKE_CASE (`API_ENDPOINTS`)
+- **Types/Interfaces**: PascalCase with descriptive names (`JobData`, `FilterParams`)
+
+## API & Data Handling
+
+### API Routes Pattern
+```typescript
+// app/api/jobs/route.ts
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function GET(request: NextRequest) {
+  try {
+    // API logic
+    return NextResponse.json(data)
+  } catch (error) {
+    return NextResponse.json({ error: 'Error message' }, { status: 500 })
+  }
+}
+```
+
+### React Query Patterns
+```typescript
+// hooks/use-jobs.ts
+import { useQuery } from '@tanstack/react-query'
+
+export function useJobs(filters: FilterParams) {
+  return useQuery({
+    queryKey: ['jobs', filters],
+    queryFn: () => fetchJobs(filters),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  })
+}
+```
+
+## Styling Guidelines
+
+### Tailwind CSS
+- Use Tailwind utility classes primarily
+- Create custom components for repeated patterns
+- Use CSS custom properties for dynamic values
+- Mobile-first responsive design approach
+
+### Component Styling
+```typescript
+// Use cn() utility for conditional classes
+const buttonVariants = cn(
+  "base-classes",
+  {
+    "variant-classes": condition,
+  },
+  className
+)
+```
+
+## Job Board Specific Patterns
+
+### Job Data Schema
+```typescript
+// types/job.ts
+export interface JobData {
+  id: string
+  title: string
+  company_name: string
+  location_raw: string
+  location_country?: string
+  location_region?: 'EMEA' | 'Americas' | 'APAC' | 'Worldwide'
+  employment_type: 'full-time' | 'part-time' | 'contract' | 'freelance'
+  seniority: 'intern' | 'junior' | 'mid' | 'senior' | 'lead'
+  source: 'Remotive' | 'JSearch' | 'WWR' | 'Manual'
+  source_job_url: string
+  published_at: string
+  featured?: boolean
+}
+```
+
+### Filter Component Pattern
+```typescript
+// components/filters/filter-group.tsx
+interface FilterGroupProps {
+  title: string
+  children: React.ReactNode
+  defaultOpen?: boolean
+}
+
+export function FilterGroup({ title, children, defaultOpen = true }: FilterGroupProps) {
+  // Collapsible filter group logic
+}
+```
+
+## Error Handling
+
+### API Error Handling
+- Always provide user-friendly error messages
+- Log detailed errors for debugging
+- Implement proper fallback UI states
+- Use error boundaries for component errors
+
+### Loading States
+- Show skeleton loaders during data fetching
+- Implement proper empty states
+- Handle network failures gracefully
+
+## Performance Best Practices
+
+### Images
+- Use Next.js Image component for all images
+- Provide proper alt text for accessibility
+- Implement lazy loading by default
+
+### Code Splitting
+- Use dynamic imports for heavy components
+- Implement route-based code splitting
+- Lazy load non-critical features
+
+## Testing Approach
+
+### Component Testing
+- Test user interactions and state changes
+- Mock API calls and external dependencies
+- Test responsive behavior
+- Verify accessibility standards
+
+### API Testing
+- Test all endpoints with various inputs
+- Verify error handling
+- Test rate limiting and caching
+- Validate response schemas
+
+## Security Considerations
+
+### Environment Variables
+- Store all API keys in environment variables
+- Use different configs for development/production
+- Never commit secrets to version control
+
+### API Security
+- Implement proper CORS headers
+- Rate limit API endpoints
+- Validate all inputs
+- Sanitize user-generated content
+
+## Accessibility
+
+### ARIA Standards
+- Provide proper ARIA labels
+- Implement keyboard navigation
+- Ensure proper focus management
+- Test with screen readers
+
+### Semantic HTML
+- Use semantic HTML elements
+- Proper heading hierarchy
+- Descriptive link text
+- Form labels and error messages
+
+## Comments & Documentation
+
+### Code Comments
+- Explain complex business logic
+- Document API integrations
+- Clarify non-obvious algorithms
+- Add TODO comments for future improvements
+
+### Function Documentation
+```typescript
+/**
+ * Parses raw location string to extract country and region
+ * @param locationRaw - Original location string from API
+ * @returns Parsed location data with country and region
+ */
+function parseLocation(locationRaw: string): ParsedLocation {
+  // Implementation
+}
+```
+
+## Git Commit Conventions
+
+### Commit Messages
+- Use conventional commit format: `type(scope): description`
+- Types: feat, fix, docs, style, refactor, test, chore
+- Keep first line under 50 characters
+- Use imperative mood ("Add feature" not "Added feature")
+
+### Examples
+- `feat(jobs): add location parsing for job listings`
+- `fix(api): handle rate limiting for JSearch API`
+- `ui(filters): improve mobile filter drawer animation`
+- `refactor(types): consolidate job data interfaces`
+
+## Code Review Checklist
+
+### Before Committing
+- [ ] TypeScript compiles without errors
+- [ ] All tests pass
+- [ ] Code follows established patterns
+- [ ] No console.logs in production code
+- [ ] Proper error handling implemented
+- [ ] Responsive design tested
+- [ ] Accessibility standards met
+- [ ] Performance implications considered 
