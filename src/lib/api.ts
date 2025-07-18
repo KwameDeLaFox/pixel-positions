@@ -144,4 +144,4 @@ export function transformJSearchJob(job: JSearchJob): JobData {
   
   // Enhance data quality
   return enhanceJobData(baseJob)
-} 
+}
