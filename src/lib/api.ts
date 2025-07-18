@@ -106,6 +106,7 @@ export function transformRemotiveJob(job: RemotiveJob): JobData {
     salary_min: salary.min,
     salary_max: salary.max,
     currency: salary.currency,
+    remote: true, // All Remotive jobs are remote by definition
   }
   
   // Enhance data quality
