@@ -124,7 +124,7 @@ export default function Home() {
             /* Split View: Job List + Detail Panel */
             <div className="flex h-screen">
               {/* Job List Panel - Left Side */}
-              <div className="w-2/5 p-4 sm:p-6 lg:p-8 overflow-y-auto border-r border-border">
+              <div className="w-2/5 p-4 sm:p-6 lg:p-8 overflow-y-auto border-r border-border bg-background min-h-full">
                 {/* Mobile Filter Button */}
                 <div className="lg:hidden mb-6">
                   <Button
@@ -194,7 +194,7 @@ export default function Home() {
               </div>
 
               {/* Job Detail Panel - Right Side */}
-              <div className="w-3/5">
+              <div className="w-3/5 bg-background min-h-full">
                 <JobDetailPanel
                   jobId={selectedJobId}
                   onClose={handlePanelClose}
