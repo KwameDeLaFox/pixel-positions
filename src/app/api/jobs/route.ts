@@ -72,10 +72,11 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Remote filter
-    if (filters.remote_only) {
-      finalJobs = finalJobs.filter((job: JobData) => job.remote)
-    }
+  // Remote filter - only apply if explicitly set to true
+if (filters.remote_only === true) {
+  finalJobs = finalJobs.filter((job: JobData) => job.remote)
+}
+// If remote_only is false or undefined, show all jobs (both remote and non-remote)
 
     // Employment type filter
     if (filters.employment_type && filters.employment_type.length > 0) {
