@@ -51,7 +51,7 @@ export function JobDetailPanel({ jobId, onClose, className }: JobDetailPanelProp
 
   return (
     <div className={cn(
-      'bg-background border-l border-border h-full overflow-hidden flex flex-col',
+      'bg-background border-l border-border h-full flex flex-col',
       className
     )}>
       {/* Header with close button */}
@@ -125,9 +125,7 @@ export function JobDetailPanel({ jobId, onClose, className }: JobDetailPanelProp
             </Button>
           </div>
         ) : (
-          <div className="bg-card">
-            <JobDetail job={job} />
-          </div>
+          <JobDetail job={job} />
         )}
       </div>
     </div>

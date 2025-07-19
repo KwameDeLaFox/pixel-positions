@@ -75,7 +75,7 @@ export default function Home() {
   ].reduce((sum, count) => sum + count, 0)
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       {/* Professional Header */}
       <Header />
       
@@ -122,9 +122,9 @@ export default function Home() {
         <main className="flex-1">
           {selectedJobId ? (
             /* Split View: Job List + Detail Panel */
-            <div className="flex h-screen">
+            <div className="flex flex-1 overflow-hidden bg-background">
               {/* Job List Panel - Left Side */}
-              <div className="w-2/5 p-4 sm:p-6 lg:p-8 overflow-y-auto border-r border-border bg-background min-h-full">
+              <div className="w-2/5 p-4 sm:p-6 lg:p-8 overflow-y-auto border-r border-border bg-background">
                 {/* Mobile Filter Button */}
                 <div className="lg:hidden mb-6">
                   <Button
@@ -194,7 +194,7 @@ export default function Home() {
               </div>
 
               {/* Job Detail Panel - Right Side */}
-              <div className="w-3/5 bg-background min-h-full">
+              <div className="w-3/5 bg-background flex flex-col overflow-hidden">
                 <JobDetailPanel
                   jobId={selectedJobId}
                   onClose={handlePanelClose}
